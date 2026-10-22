@@ -1,0 +1,284 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, viewport-fit=cover"
+    />
+    <title>Weather Finder - Live Global Weather Forecast</title>
+    <meta
+      name="description"
+      content="Real-time global weather finder app. Check temperature, conditions, humidity, pressure, and wind speed for any location worldwide."
+    />
+    <meta name="theme-color" content="#0f2027" />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Weather Finder - Live Global Weather" />
+    <meta
+      property="og:description"
+      content="Search real-time weather conditions, temperature, humidity, pressure, and wind speed for any city worldwide."
+    />
+    <meta property="og:image" content="images/weather.jpg" />
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Weather Finder - Live Global Weather" />
+    <meta
+      name="twitter:description"
+      content="Search real-time weather conditions, temperature, humidity, pressure, and wind speed for any city worldwide."
+    />
+    <meta name="twitter:image" content="images/weather.jpg" />
+
+    <link rel="icon" type="image/jpeg" href="images/weather.jpg" />
+    <link rel="apple-touch-icon" href="images/weather.jpg" />
+
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+      integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+
+    <link rel="stylesheet" href="style.css" />
+  </head>
+
+  <body>
+    <div
+      id="initialLoader"
+      class="app-splash-screen"
+      role="dialog"
+      aria-label="Loading app"
+    >
+      <div class="loader-wrapper">
+        <div class="scene">
+          <div class="cube">
+            <div class="face front">
+              <div></div>
+              <div></div>
+              <div></div>
+              <div></div>
+              <div></div>
+              <div></div>
+              <div></div>
+              <div></div>
+              <div></div>
+            </div>
+            <div class="face back">
+              <div></div>
+              <div></div>
+              <div></div>
+              <div></div>
+              <div></div>
+              <div></div>
+              <div></div>
+              <div></div>
+              <div></div>
+            </div>
+            <div class="face left">
+              <div></div>
+              <div></div>
+              <div></div>
+              <div></div>
+              <div></div>
+              <div></div>
+              <div></div>
+              <div></div>
+              <div></div>
+            </div>
+            <div class="face right">
+              <div></div>
+              <div></div>
+              <div></div>
+              <div></div>
+              <div></div>
+              <div></div>
+              <div></div>
+              <div></div>
+              <div></div>
+            </div>
+            <div class="face bottom">
+              <div></div>
+              <div></div>
+              <div></div>
+              <div></div>
+              <div></div>
+              <div></div>
+              <div></div>
+              <div></div>
+              <div></div>
+            </div>
+            <div class="face top">
+              <div></div>
+              <div></div>
+              <div></div>
+              <div></div>
+              <div></div>
+              <div></div>
+              <div></div>
+              <div></div>
+              <div></div>
+            </div>
+          </div>
+        </div>
+        <div class="shadow"></div>
+        <div class="loading-text">
+          Starting Weather Finder<span>.</span><span>.</span><span>.</span>
+        </div>
+        <button
+          id="skipSplashBtn"
+          class="skip-splash-btn"
+          type="button"
+          aria-label="Skip splash screen"
+        >
+          Skip <i class="fa-solid fa-angles-right"></i>
+        </button>
+      </div>
+    </div>
+
+    <main class="container" id="weatherContainer">
+      <header class="app-header">
+        <div class="app-brand">
+          <i class="fa-solid fa-cloud-sun"></i>
+          <span>Weather Finder</span>
+        </div>
+        <div class="header-actions">
+          <button
+            id="unitToggle"
+            class="unit-toggle"
+            type="button"
+            aria-label="Toggle temperature unit between Celsius and Fahrenheit"
+            title="Toggle °C / °F"
+          >
+            <span class="unit-pill active" id="unitC">°C</span>
+            <span class="unit-pill" id="unitF">°F</span>
+          </button>
+        </div>
+      </header>
+
+      <div class="search-box">
+        <div class="search-input-wrapper">
+          <i
+            class="fa-solid fa-location-dot search-icon"
+            aria-hidden="true"
+          ></i>
+          <input
+            id="cityInput"
+            type="text"
+            placeholder="Search city, e.g. London, Tokyo..."
+            autocomplete="off"
+            spellcheck="false"
+            aria-label="City name"
+          />
+          <button
+            id="clearInputBtn"
+            class="clear-input-btn"
+            type="button"
+            aria-label="Clear input text"
+            title="Clear"
+          >
+            <i class="fa-solid fa-xmark"></i>
+          </button>
+        </div>
+        <button
+          id="locationBtn"
+          class="btn-icon location-btn"
+          type="button"
+          aria-label="Use current location"
+          title="Use current location"
+        >
+          <i class="fa-solid fa-location-crosshairs"></i>
+        </button>
+        <button
+          id="searchBtn"
+          class="btn-icon search-btn"
+          type="button"
+          aria-label="Search weather"
+          title="Search"
+        >
+          <i class="fa-solid fa-magnifying-glass"></i>
+        </button>
+      </div>
+
+      <div class="loading" id="loadingBox" aria-live="polite">
+        <div class="spinner"></div>
+        <p id="loadingMsg">Fetching live weather...</p>
+      </div>
+
+      <div class="not-found" id="errorBox" aria-live="polite">
+        <img id="errorImg" src="images/404.png" alt="Not found illustration" />
+        <h3 id="errorTitle">Location Not Found</h3>
+        <p id="errorDescription">
+          We couldn't find the location you requested. Please check the spelling
+          and try again.
+        </p>
+        <button id="retryBtn" class="retry-btn" type="button">
+          <i class="fa-solid fa-rotate-right"></i> Try Again
+        </button>
+      </div>
+
+      <section class="weather-box" id="weatherBox" aria-live="polite">
+        <div class="location-info">
+          <h2 class="city-name">
+            <i class="fa-solid fa-location-dot"></i>
+            <span id="cityName">--</span>
+            <span id="countryBadge" class="country-badge">--</span>
+          </h2>
+          <p class="date-time" id="dateTime">--</p>
+        </div>
+
+        <div class="weather-visual">
+          <img
+            id="weatherImg"
+            src="images/clear.png"
+            alt="Current weather condition"
+            onerror="this.src = 'images/clear.png'"
+          />
+          <div class="temp-group">
+            <p class="temperature" id="temperature">--<span>°C</span></p>
+            <p class="feels-like" id="feelsLike">Feels like --°C</p>
+          </div>
+        </div>
+
+        <p class="description" id="weatherDescription">--</p>
+      </section>
+
+      <div class="weather-details" id="weatherDetails">
+        <div class="detail-card humidity">
+          <i class="fa-solid fa-water"></i>
+          <div class="detail-text">
+            <span id="humidityVal">--%</span>
+            <p>Humidity</p>
+          </div>
+        </div>
+
+        <div class="detail-card wind">
+          <i class="fa-solid fa-wind"></i>
+          <div class="detail-text">
+            <span id="windVal">-- Km/h</span>
+            <p>Wind Speed</p>
+          </div>
+        </div>
+
+        <div class="detail-card pressure">
+          <i class="fa-solid fa-gauge-high"></i>
+          <div class="detail-text">
+            <span id="pressureVal">-- hPa</span>
+            <p>Pressure</p>
+          </div>
+        </div>
+
+        <div class="detail-card visibility">
+          <i class="fa-solid fa-eye"></i>
+          <div class="detail-text">
+            <span id="visibilityVal">-- Km</span>
+            <p>Visibility</p>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <script src="script.js"></script>
+  </body>
+</html>
